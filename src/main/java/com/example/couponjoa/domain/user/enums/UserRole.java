@@ -1,6 +1,15 @@
 package com.example.couponjoa.domain.user.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum UserRole {
-    USER,
-    ADMIN
+
+    ROLE_USER("ROLE_USER"),
+    ROLE_ADMIN("ROLE_ADMIN");
+
+    private final String userRole;
+
 }
