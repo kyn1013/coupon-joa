@@ -8,11 +8,12 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    // JWT 에러 코드
+    // JWT 에러 및 인증/인가 코드
 
     // 400
     UNSUPPORTED_JWT_TOKEN(HttpStatus.BAD_REQUEST, "J001", "지원되지 않는 JWT 토큰입니다."),
-    INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "J002", "리프레시 토큰이 일치하지 않습니다.");
+    INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "J002", "리프레시 토큰이 일치하지 않습니다."),
+    UNAUTHORIZED_ROLE(HttpStatus.FORBIDDEN, "J003", "존재하지 않는 권한입니다.");
 
     private final HttpStatus status;
     private final String code;
