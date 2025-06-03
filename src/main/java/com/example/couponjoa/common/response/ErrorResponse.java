@@ -9,16 +9,18 @@ import lombok.NoArgsConstructor;
 public class ErrorResponse {
 
     private String name;
-    private int code;
+    private String code;
+    private int statusCode;
     private String message;
 
-    private ErrorResponse(String name, int code, String message) {
+    private ErrorResponse(String name, String code, int statusCode, String message) {
         this.name = name;
         this.code = code;
+        this.statusCode = statusCode;
         this.message = message;
     }
 
     public static ErrorResponse of(ErrorCode code) {
-        return new ErrorResponse(code.name(), code.getStatus().value(), code.getMessage());
+        return new ErrorResponse(code.name(), code.getCode(), code.getStatus().value(), code.getMessage());
     }
 }

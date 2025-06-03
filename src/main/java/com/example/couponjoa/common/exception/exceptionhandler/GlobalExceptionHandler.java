@@ -18,16 +18,6 @@ import java.util.Map;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
-
-
-    @ExceptionHandler(ClientException.class)
-    public ResponseEntity<ErrorResponse> handleClientException(ClientException ex) {
-        ErrorCode errorCode = ex.getErrorCode();
-        return ResponseEntity
-                .status(errorCode.getStatus())
-                .body(ErrorResponse.of(errorCode));
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex) {
@@ -37,6 +27,15 @@ public class GlobalExceptionHandler {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
+
+    @ExceptionHandler(ClientException.class)
+    public ResponseEntity<ErrorResponse> handleClientException(ClientException ex) {
+        ErrorCode errorCode = ex.getErrorCode();
+        return ResponseEntity
+                .status(errorCode.getStatus())
+                .body(ErrorResponse.of(errorCode));
+    }
+
 
     @ExceptionHandler(ServerException.class)
     public ResponseEntity<ErrorResponse> handleServerException(ServerException ex) {
