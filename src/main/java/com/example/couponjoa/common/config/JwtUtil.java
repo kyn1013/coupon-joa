@@ -20,7 +20,10 @@ import java.util.Date;
 public class JwtUtil {
 
     private static final String BEARER_PREFIX = "Bearer ";
-    private static final long TOKEN_TIME = 60 * 60 * 1000L; // 60분
+//    private static final long ACCESS_TOKEN_TIME = 15 * 60 * 1000L; // 15분
+private static final long ACCESS_TOKEN_TIME = 10 * 1000L; // 30초
+    private static final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
+
 
     @Value("${jwt.secret.key}")
     private String secretkey;
@@ -37,9 +40,9 @@ public class JwtUtil {
     }
 
     /*
-     * 토큰 생성
+     * access 토큰 생성
      */
-    public String createToken(Long userId, String email, UserRole userRole) {
+    public String createAccessToken(Long userId, String email, UserRole userRole) {
         Date date = new Date();
 
         return BEARER_PREFIX +
@@ -47,7 +50,24 @@ public class JwtUtil {
                         .setSubject(String.valueOf(userId))
                         .claim("email", email)
                         .claim("userRole", userRole.getUserRole())
-                        .setExpiration(new Date(date.getTime() + TOKEN_TIME))
+                        .setExpiration(new Date(date.getTime() + ACCESS_TOKEN_TIME))
+                        .setIssuedAt(date)
+                        .signWith(key, signatureAlgorithm)
+                        .compact();
+    }
+
+    /*
+     * refresh 토큰 생성
+     */
+    public String createRefreshToken(Long userId, String email, UserRole userRole) {
+        Date date = new Date();
+
+        return BEARER_PREFIX +
+                Jwts.builder()
+                        .setSubject(String.valueOf(userId))
+                        .claim("email", email)
+                        .claim("userRole", userRole.getUserRole())
+                        .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
                         .compact();
