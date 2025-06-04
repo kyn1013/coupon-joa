@@ -34,4 +34,15 @@ public class User extends BaseEntity {
 
     private Boolean isDeleted;
 
+    private User(String email, String password, String username, UserRole userRole) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.userRole = userRole;
+        this.isDeleted = false;
+    }
+
+    public static User of(String email, String password, String username, UserRole userRole) {
+        return new User(email, password, username, userRole);
+    }
 }
